@@ -47,7 +47,19 @@ export default function HomeScreen({ navigation }: any) {
       });
     }
   };
+  const restartGame = () => {
+    setScore(0);
+    setTimeLeft(10);
+    setInsects(generateInsects());
+  };
 
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      restartGame();
+    });
+
+    return unsubscribe;
+  }, [navigation]);
   return (
     <View style={styles.container}>
       <View style={styles.header}>

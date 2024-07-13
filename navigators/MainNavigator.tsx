@@ -15,15 +15,15 @@ function MyStack() {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Registro" component={RegistroScreen} />
-      <Stack.Screen name="Tabs" component={MyTabs} />
       <Stack.Screen name="GameOver" component={GameOverScreen} />
+      <Stack.Screen name="Tabs" component={MyTabs} />
     </Stack.Navigator>
   );
 }
 
 function MyTabs() {
   return (
-    <Tabs.Navigator>
+    <Tabs.Navigator screenOptions={{ headerShown: false }}>
       <Tabs.Screen name="Game" component={HomeScreen} />
       <Tabs.Screen name="Scores" component={HighScoreScreen} />
     </Tabs.Navigator>
