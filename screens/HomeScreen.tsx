@@ -24,11 +24,7 @@ export default function HomeScreen({ navigation }: any) {
   useEffect(() => {
     if (timeLeft === 0) {
       saveScore();
-      Alert.alert("Game Over", `Your score is ${score}`, [
-        {
-          text: "OK",
-        }
-      ]);
+      navigation.navigate('GameOver', { score });
     } else {
       const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
       return () => clearTimeout(timer);

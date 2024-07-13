@@ -5,6 +5,7 @@ import RegistroScreen from "../screens/RegistroScreen";
 import HomeScreen from "../screens/HomeScreen";
 import HighScoreScreen from "../screens/HighScoreScreen";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import GameOverScreen from "../screens/GameOverScreen";
 
 const Stack = createStackNavigator();
 const Tabs = createBottomTabNavigator();
@@ -15,6 +16,7 @@ function MyStack() {
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Registro" component={RegistroScreen} />
       <Stack.Screen name="Tabs" component={MyTabs} />
+      <Stack.Screen name="GameOver" component={GameOverScreen} />
     </Stack.Navigator>
   );
 }
