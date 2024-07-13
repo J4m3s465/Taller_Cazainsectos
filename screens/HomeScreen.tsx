@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import Insect from '../components/Insect';
-import { auth, firestore } from '../config/config';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { auth, db } from '../config/config';
+import { ref, push, set, serverTimestamp } from 'firebase/database';
 
 export default function HomeScreen({ navigation }: any) {
   const generateInsects = () => {
@@ -39,14 +39,16 @@ export default function HomeScreen({ navigation }: any) {
   const saveScore = async () => {
     const user = auth.currentUser;
     if (user) {
-      const scoresRef = collection(firestore, 'scores');
-      await addDoc(scoresRef, {
+      const scoresRef = ref(db, 'scores');
+      const newScoreRef = push(scoresRef);
+      await set(newScoreRef, {
         userId: user.uid,
         score,
-        createdAt: serverTimestamp(),
+        createdAt: serverTimestamp()
       });
     }
   };
+  
   const restartGame = () => {
     setScore(0);
     setTimeLeft(10);

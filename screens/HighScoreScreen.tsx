@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { auth, firestore } from '../config/config';
-import { collection, query, orderBy, getDocs } from 'firebase/firestore';
+import { db } from '../config/config';
+import { ref, query, orderByChild, get } from 'firebase/database';
 import { FlatList } from 'react-native-gesture-handler';
 
 export default function HighScoreScreen({ navigation }: any) {
@@ -9,19 +9,24 @@ export default function HighScoreScreen({ navigation }: any) {
 
   useEffect(() => {
     const fetchScores = async () => {
-      const scoresRef = collection(firestore, 'scores');
-      const q = query(scoresRef, orderBy('score', 'desc'));
-      const snapshot = await getDocs(q);
+      const scoresRef = ref(db, 'scores');
+      const scoresQuery = query(scoresRef, orderByChild('score'));
 
-      if (!snapshot.empty) {
-        const scoresList = snapshot.docs.map(doc => ({
-          id: doc.id,
-          userId: doc.data().userId,
-          score: doc.data().score,
-        }));
-        setHighScores(scoresList);
-      } else {
-        console.log('No se encontraron scores.');
+      try {
+        const snapshot = await get(scoresQuery);
+        if (snapshot.exists()) {
+          const scoresData = snapshot.val();
+          const scoresList = Object.keys(scoresData).map(key => ({
+            id: key,
+            userId: scoresData[key].userId,
+            score: scoresData[key].score,
+          })).sort((a, b) => b.score - a.score);
+          setHighScores(scoresList);
+        } else {
+          console.log('No se encontraron scores.');
+        }
+      } catch (error) {
+        console.error('Error fetching scores:', error);
       }
     };
 
@@ -29,7 +34,7 @@ export default function HighScoreScreen({ navigation }: any) {
   }, []);
 
   const handleGoBack = () => {
-    navigation.navigate('GameOver', {score: 0}); 
+    navigation.navigate('GameOver', { score: 0 }); 
   };
 
   return (
