@@ -6,6 +6,9 @@ import HomeScreen from "../screens/HomeScreen";
 import HighScoreScreen from "../screens/HighScoreScreen";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import GameOverScreen from "../screens/GameOverScreen";
+import React from "react";
+import { Ionicons } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 
 const Stack = createStackNavigator();
 const Tabs = createBottomTabNavigator();
@@ -23,7 +26,24 @@ function MyStack() {
 
 function MyTabs() {
   return (
-    <Tabs.Navigator screenOptions={{ headerShown: false }}>
+    <Tabs.Navigator screenOptions={({ route }) => ({
+      tabBarIcon: ({ focused, color, size }) => {
+        let iconName;
+
+        if (route.name === 'Game') {
+          iconName = focused ? 'game-controller' : 'game-controller';
+        } else if (route.name === 'Scores') {
+          iconName = focused ? 'trophy' : 'trophy';
+        }
+
+        // Devuelve el componente de icono de Entypo
+        return <Entypo name={iconName} size={size} color={color} />;
+      },
+    })}
+    tabBarOptions={{
+      activeTintColor: 'blue',
+      inactiveTintColor: 'gray',
+    }}>
       <Tabs.Screen name="Game" component={HomeScreen} />
       <Tabs.Screen name="Scores" component={HighScoreScreen} />
     </Tabs.Navigator>
