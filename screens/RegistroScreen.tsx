@@ -29,7 +29,7 @@ export default function RegistroScreen({ navigation }: any) {
   };
 
   async function subir() {
-    const storageRef = ref(storage, 'usuarios/');
+    const storageRef = ref(storage, 'usuarios/' + "Imagen");
     const response = await fetch(image);
     const blob = await response.blob();
 

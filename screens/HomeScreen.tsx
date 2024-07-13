@@ -18,7 +18,7 @@ export default function HomeScreen({ navigation }: any) {
   };
 
   const [score, setScore] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(10);
+  const [timeLeft, setTimeLeft] = useState(15);
   const [insects, setInsects] = useState(generateInsects());
 
   useEffect(() => {
@@ -51,7 +51,7 @@ export default function HomeScreen({ navigation }: any) {
   
   const restartGame = () => {
     setScore(0);
-    setTimeLeft(10);
+    setTimeLeft(15);
     setInsects(generateInsects());
   };
 
